@@ -1,48 +1,70 @@
 """
-Database Schemas
+Database Schemas for ImpactFlow
 
-Define your MongoDB collection schemas here using Pydantic models.
-These schemas are used for data validation in your application.
+Each Pydantic model corresponds to a MongoDB collection. Collection name is the
+lowercased class name.
 
-Each Pydantic model represents a collection in your database.
-Model name is converted to lowercase for the collection name:
-- User -> "user" collection
-- Product -> "product" collection
-- BlogPost -> "blogs" collection
+Examples:
+- User -> "user"
+- Event -> "event"
+- Donation -> "donation"
 """
 
+from typing import List, Optional
 from pydantic import BaseModel, Field
-from typing import Optional
+from datetime import datetime
 
-# Example schemas (replace with your own):
-
+# Core Users
 class User(BaseModel):
-    """
-    Users collection schema
-    Collection name: "user" (lowercase of class name)
-    """
     name: str = Field(..., description="Full name")
     email: str = Field(..., description="Email address")
-    address: str = Field(..., description="Address")
-    age: Optional[int] = Field(None, ge=0, le=120, description="Age in years")
-    is_active: bool = Field(True, description="Whether user is active")
+    phone: Optional[str] = Field(None, description="Phone number")
+    role: str = Field("volunteer", description="Role: admin/volunteer/coordinator/donor")
+    password: str = Field(..., description="Password (store hashed in production)")
+    is_active: bool = Field(True, description="Active status")
 
-class Product(BaseModel):
-    """
-    Products collection schema
-    Collection name: "product" (lowercase of class name)
-    """
-    title: str = Field(..., description="Product title")
-    description: Optional[str] = Field(None, description="Product description")
-    price: float = Field(..., ge=0, description="Price in dollars")
-    category: str = Field(..., description="Product category")
-    in_stock: bool = Field(True, description="Whether product is in stock")
+# Events
+class Event(BaseModel):
+    event_title: str = Field(..., description="Title of the event")
+    date: str = Field(..., description="ISO date string e.g., 2025-05-20")
+    location: str = Field(..., description="Event location")
+    description: Optional[str] = Field(None, description="Event description")
+    budget: Optional[float] = Field(0, ge=0, description="Budget in currency units")
+    status: str = Field("upcoming", description="upcoming/ongoing/completed/cancelled")
+    banner_url: Optional[str] = Field(None, description="Public URL to banner image")
 
-# Add your own schemas here:
-# --------------------------------------------------
+# Volunteers (profile separate from User when role is volunteer)
+class Volunteer(BaseModel):
+    name: str
+    skills: List[str] = []
+    availability: Optional[str] = None
+    phone: Optional[str] = None
 
-# Note: The Flames database viewer will automatically:
-# 1. Read these schemas from GET /schema endpoint
-# 2. Use them for document validation when creating/editing
-# 3. Handle all database operations (CRUD) directly
-# 4. You don't need to create any database endpoints!
+# Mapping between Events and Volunteers
+class EventVolunteer(BaseModel):
+    event_id: str
+    volunteer_id: str
+    role: Optional[str] = Field(None, description="Assigned role in the event")
+
+# Donations
+class Donation(BaseModel):
+    donor_name: str
+    event_id: Optional[str] = Field(None, description="Linked event id")
+    amount: Optional[float] = Field(None, ge=0, description="Amount for cash donation")
+    kind: str = Field("cash", description="cash/material")
+    material_desc: Optional[str] = Field(None, description="Description if material donation")
+    date: str = Field(..., description="ISO date string")
+
+# Tasks
+class Task(BaseModel):
+    event_id: str
+    task_name: str
+    assigned_to: Optional[str] = Field(None, description="Volunteer id")
+    status: str = Field("Pending", description="Pending/In Progress/Done")
+
+# Attendance
+class Attendance(BaseModel):
+    event_id: str
+    volunteer_id: str
+    method: str = Field("manual", description="manual/qr/otp")
+    timestamp: Optional[datetime] = None

@@ -1,0 +1,27 @@
+INFO:     Will watch for changes in these directories: ['/home/workspace']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [152] using StatReload
+INFO:     Started server process [154]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     172.20.0.1:47682 - "HEAD / HTTP/1.1" 405 Method Not Allowed
+INFO:     172.20.0.1:47690 - "GET /events HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47702 - "GET /volunteers HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47716 - "GET /donations HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47726 - "GET /tasks HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47690 - "GET /events HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47702 - "GET /volunteers HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47716 - "GET /donations HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47726 - "GET /tasks HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47690 - "GET /events HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47690 - "GET /events HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54796 - "GET /events HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54806 - "GET /volunteers HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54808 - "GET /donations HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54816 - "GET /tasks HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54796 - "GET /events HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54806 - "GET /volunteers HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54808 - "GET /donations HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54816 - "GET /tasks HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54796 - "GET /events HTTP/1.1" 200 OK
+INFO:     172.20.0.1:54796 - "GET /events HTTP/1.1" 200 OK
